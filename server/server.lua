@@ -94,12 +94,12 @@ RegisterNetEvent('qc-billing:server:sendSocietyBill', function(playerid, amount,
     end
 end)
 
--- send bill as a player
 RegisterNetEvent('qc-billing:server:sendPlayerBill', function(playerid, amount)
     local src = source
     local SendPlayer = RSGCore.Functions.GetPlayer(src)
-    local SendName = (SendPlayer.PlayerData.charinfo.firstname..' '..SendPlayer.PlayerData.charinfo.lastname)
-    local Player = RSGCore.Functions.GetPlayer(tonumber(playerid))
+    local SendName = (SendPlayer.PlayerData.charinfo.firstname .. ' ' .. SendPlayer.PlayerData.charinfo.lastname)
+    local Player = RSGCore.Functions.GetPlayerByCitizenId(playerid)
+    
     if Player then
         exports.oxmysql:insert('INSERT INTO player_bills (citizenid, amount, society, sender, sendercitizenid) VALUES (?, ?, ?, ?, ?)',
         {
@@ -109,10 +109,11 @@ RegisterNetEvent('qc-billing:server:sendPlayerBill', function(playerid, amount)
             SendName,
             SendPlayer.PlayerData.citizenid
         })
-        TriggerClientEvent('RSGCore:Notify', source, 'Bill Sent', 'success')
-        TriggerClientEvent('RSGCore:Notify', playerid, 'You received a $'..amount..' bill', 'success')
+
+        TriggerClientEvent('RSGCore:Notify', src, 'Bill Sent', 'success')
+        TriggerClientEvent('RSGCore:Notify', Player.PlayerData.source, 'You received a $' .. amount .. ' bill', 'success')
     else
-        TriggerClientEvent('RSGCore:Notify', source, 'Did not find player', 'error')
+        TriggerClientEvent('RSGCore:Notify', src, 'Did not find player', 'error')
     end
 end)
 
