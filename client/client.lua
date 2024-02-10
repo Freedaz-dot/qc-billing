@@ -45,9 +45,9 @@ RegisterNetEvent('qc-billing:client:billplayer', function()
     submitText = "Send Bill",
         inputs = {
             {
-                text = "PlayerID",
-                name = "playerid",
-                type = "number",
+                text = "CitizenID",
+                name = "citizenid",
+                type = "text",
                 isRequired = false,
             },
             {
@@ -69,7 +69,7 @@ RegisterNetEvent('qc-billing:client:billplayer', function()
     })
     if dialog == nil then return end
     if dialog == "" then return RSGCore.Functions.Notify("you didn't write anything", 'error') end
-    if dialog.playerid == "" then return RSGCore.Functions.Notify("you didn't write the player id", 'error') end
+    if dialog.citizenid == "" then return RSGCore.Functions.Notify("you didn't write the citizen id", 'error') end
     if dialog.billprice == "" then return RSGCore.Functions.Notify("you didn't write the bill price", 'error') end
     if dialog.billtype == 'society' then
         local playerjob = RSGCore.Functions.GetPlayerData().job.name
@@ -80,13 +80,13 @@ RegisterNetEvent('qc-billing:client:billplayer', function()
             end
         end
         if jobcheck == true then
-            TriggerServerEvent('qc-billing:server:sendSocietyBill', dialog.playerid, dialog.billprice, playerjob)    
+            TriggerServerEvent('qc-billing:server:sendSocietyBill', dialog.citizenid, dialog.billprice, playerjob)
         else
             RSGCore.Functions.Notify('you are not part of a society!', 'error')
         end
     end
     if dialog.billtype == 'player' then
-        TriggerServerEvent('qc-billing:server:sendPlayerBill', dialog.playerid, dialog.billprice)
+        TriggerServerEvent('qc-billing:server:sendPlayerBill', dialog.citizenid, dialog.billprice)
     end
 end, false)
 
