@@ -1,5 +1,5 @@
 # All Credits go to RexShack
-Billing for Rsg Core
+Billing for Rsg Core using Citizen ID
 
 # Dependancies
 - rsg-core
